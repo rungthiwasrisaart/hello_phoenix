@@ -14,6 +14,15 @@ defmodule HelloWeb.Router do
     end
   end
 
+  defp put_user_token(conn, _) do
+    if current_user = conn.assigns[:current_user] do
+      token = Phoenix.Token.sign(conn, "user socket", current_user.id)
+      assign(conn, :user_token, token)
+    else
+      conn
+    end
+  end
+
   pipeline :browser do
     plug :accepts, ["html", "text"]
     plug :fetch_session
@@ -50,7 +59,7 @@ defmodule HelloWeb.Router do
   end
 
   scope "/cms", HelloWeb.CMS, as: :cms do
-    pipe_through [:browser, :authenticate_user]
+    pipe_through [:browser, :authenticate_user, :put_user_token]
     resources "/pages", PageController
   end
 

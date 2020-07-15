@@ -28,3 +28,6 @@
 </table>
 
 <span><%= link "New Page", to: Routes.cms_page_path(@conn, :new) %></span>
+
+<div id="messages" role="log" aria-live="polite"></div>
+<input id="chat-input" type="text"></input>
