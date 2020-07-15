@@ -49,6 +49,11 @@ defmodule HelloWeb.Router do
     forward "/jobs", BackgroundJob.Plug, name: "Hello Phoenix"
   end
 
+  scope "/cms", HelloWeb.CMS, as: :cms do
+    pipe_through [:browser, :authenticate_user]
+    resources "/pages", PageController
+  end
+
   scope "/admin", HelloWeb.Admin, as: :admin do
     pipe_through :browser
 
