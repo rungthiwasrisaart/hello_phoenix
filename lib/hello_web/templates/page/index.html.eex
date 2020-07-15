@@ -36,3 +36,5 @@
     </ul>
   </article>
 </section>
+
+<%= Phoenix.View.render(HelloWeb.PageView, "test.html", message: "Hello from layout!") %>
