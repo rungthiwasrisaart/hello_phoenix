@@ -1,6 +1,19 @@
 defmodule HelloWeb.Router do
   use HelloWeb, :router
 
+  defp authenticate_user(conn, _) do
+    case get_session(conn, :user_id) do
+      nil ->
+        conn
+        |> Phoenix.Controller.put_flash(:error, "Login required")
+        |> Phoenix.Controller.redirect(to: "/")
+        |> halt()
+
+      user_id ->
+        assign(conn, :current_user, Hello.Accounts.get_user!(user_id))
+    end
+  end
+
   pipeline :browser do
     plug :accepts, ["html", "text"]
     plug :fetch_session
@@ -25,6 +38,10 @@ defmodule HelloWeb.Router do
     resources "/users", UserController do
       resources "/posts", PostController
     end
+
+    resources "/sessions", SessionController,
+      only: [:new, :create, :delete],
+      singleton: true
 
     resources "/posts", PostController, only: [:index, :show]
     resources "/comments", CommentController, except: [:delete]
