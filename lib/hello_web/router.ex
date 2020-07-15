@@ -36,14 +36,14 @@ defmodule HelloWeb.Router do
     get "/hello/:messenger", HelloController, :show
 
     resources "/users", UserController do
-      resources "/posts", PostController
+      resources "/posts", PostController, except: [:new, :edit]
     end
 
     resources "/sessions", SessionController,
       only: [:new, :create, :delete],
       singleton: true
 
-    resources "/posts", PostController, only: [:index, :show]
+    resources "/posts", PostController, except: [:new, :edit]
     resources "/comments", CommentController, except: [:delete]
     resources "/reviews", ReviewController
     forward "/jobs", BackgroundJob.Plug, name: "Hello Phoenix"
