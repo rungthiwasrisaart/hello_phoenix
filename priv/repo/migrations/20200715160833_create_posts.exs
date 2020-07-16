@@ -8,6 +8,5 @@ defmodule Hello.Repo.Migrations.CreatePosts do
 
       timestamps()
     end
-
   end
 end

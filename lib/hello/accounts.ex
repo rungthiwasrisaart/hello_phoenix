@@ -110,7 +110,6 @@ defmodule Hello.Accounts do
     User.changeset(user, attrs)
   end
 
-
   @doc """
   Returns the list of credentials.
 
@@ -216,5 +215,4 @@ defmodule Hello.Accounts do
       nil -> {:error, :unauthorized}
     end
   end
-
 end

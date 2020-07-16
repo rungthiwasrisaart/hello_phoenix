@@ -14,9 +14,15 @@ defmodule Hello.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Hello.PubSub},
       # Start the Endpoint (http/https)
-      HelloWeb.Endpoint
+      HelloWeb.Endpoint,
       # Start a worker by calling: Hello.Worker.start_link(arg)
       # {Hello.Worker, arg}
+      # Supervisor.child_spec({Streamer.Binance, ["btcusdt"]}, id: :my_worker_1),
+      Supervisor.child_spec(
+        {Streamer.Binance.Depth, "wss://stream.binance.com:9443/ws/xlmusdt@depth10@1000ms"},
+        id: :my_worker_2
+      )
+      # {Streamer.Binance, ["btcusdt", []]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
